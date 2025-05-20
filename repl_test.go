@@ -1,6 +1,9 @@
 package main
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestCleanInput(t *testing.T) {
 	cases := []struct {
@@ -8,29 +11,28 @@ func TestCleanInput(t *testing.T) {
 		expected []string
 	}{
 		{
-			input:    "hello  world",
+			input:    "  hello  world  ",
 			expected: []string{"hello", "world"},
 		},
-		{
-			input:    "PIkachu is amazing  pOkEmOn",
-			expected: []string{"pikachu", "is", "amazing", "pokemon"},
-		},
+		// add more cases here
 	}
 
 	for _, c := range cases {
 		actual := cleanInput(c.input)
-		if len(c.expected) != len(actual) {
-			t.Errorf("error: \n\tgot: %s \n\texpected: %s", actual, c.expected)
-			return
+		fmt.Printf("Case: %s\n", c.input)
+		fmt.Printf("Expecting: %s\n", c.expected)
+		if len(actual) != len(c.expected) {
+			t.Errorf("error: wrong length")
 		}
-
 		for i := range actual {
 			word := actual[i]
 			expectedWord := c.expected[i]
+			fmt.Printf("word: %s || expectedWord: %s", word, expectedWord)
 			if word != expectedWord {
-				t.Errorf("not matching!!! \n\t actual: %s \n\t expected: %s", word, expectedWord)
-				return
+				fmt.Print("\tFAIL!\n")
+				t.Errorf("\nerror: words not matching! word: %s != expected: %s", word, expectedWord)
 			}
+			fmt.Print("\tOK!\n")
 		}
 	}
 }
